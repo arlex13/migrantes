@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* colors: {
+  "bg-primary":"#ea4a3c",
+  "bg-primary-light":"#90519B",
+  "bg-primary-dark":"#340041",
+  "bg-secondary":"#20878e",
+  "bg-secondary-light":"#17527F",
+  "bg-secondary-dark":"#875100"
+} */
+
+body {
+  /* background-color: #adadad; */
+}
+
+@layer components {
+  .btn {
+    border-radius: 0.5rem;
+    padding: 0.4rem 3rem 0.4rem 3rem;
+    font-size: 1rem;
+  }
+  .btn-primary {
+    @apply shadow-xl;
+    background-color: #ea4a3c;
+    border: 0.15rem solid #ea4a3c;
+    color: #ffffff;
+    font-weight: bold;
+  }
+  .btn-primary:hover {
+    @apply shadow-xl;
+    background-color: #ffffff;
+    color: #ea4a3c;
+    border: 0.15rem solid #ea4a3c;
+    font-weight: bold;
+  }
+  .btn-primary-light {
+    @apply shadow-xl;
+    background-color: #90519b;
+    border: 0.15rem solid #90519b;
+    color: #ffffff;
+    font-weight: bold;
+  }
+  .btn-primary-light:hover {
+    @apply shadow-xl;
+    background-color: #ffffff;
+    color: #90519b;
+    border: 0.15rem solid #90519b;
+    font-weight: bold;
+  }
+  .btn-secondary {
+    @apply shadow-xl;
+    background-color: #20878e;
+    border: 0.15rem solid #20878e;
+    color: #ffffff;
+    font-weight: bold;
+  }
+  .btn-secondary:hover {
+    @apply shadow-xl;
+    background-color: #ffffff;
+    color: #20878e;
+    border: 0.15rem solid #20878e;
+    font-weight: bold;
+  }
+  .btn-remove-sx {
+    width: initial;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: bottom;
+    background: #ea4a3c;
+    color: #fff;
+    border-radius: 4px !important;
+    font-size: 0.875rem;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    min-width: 32px;
+    min-height: 32px;
+    height: 32px;
+    padding: 0px 16px 4px;
+    line-height: 32px;
+    font-family: "Roboto";
+  }
+  .text-title {
+    @apply text-[#002D47];
+    @apply text-4xl;
+    @apply font-bold;
+  }
+  .text-title-secondary {
+    @apply text-[#ea4a3c];
+    @apply text-2xl;
+    @apply font-bold;
+  }
+  .card-gray {
+    @apply rounded-lg;
+    @apply shadow-xl;
+    @apply bg-[#D9D9D9];
+    @apply p-2;
+  }
+  .card-white {
+    @apply rounded-lg;
+    @apply shadow-xl;
+    @apply bg-white;
+    @apply p-2;
+  }
+  .label {
+    @apply text-[#296073];
+    @apply text-base;
+    @apply font-bold;
+  }
+}
+
+* {
+  font-family: "Roboto";
+}
