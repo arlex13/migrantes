@@ -28,7 +28,7 @@ export default function User() {
   return (
     <>
       <div>
-        <h1 className="text-title mb-4">Usuariog</h1>
+        <h1 className="text-title mb-4">Usuario</h1>
       </div>
       <LoadMask loading={loading}>
         <UserForm

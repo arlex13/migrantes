@@ -39,7 +39,7 @@ export default function Login() {
               >
                 <div className="flex flex-col mb-4">
                   <label htmlFor="test" className="label">
-                    Usuariog
+                    Usuario
                   </label>
                   <InputText
                     className="form-input rounded-xl"

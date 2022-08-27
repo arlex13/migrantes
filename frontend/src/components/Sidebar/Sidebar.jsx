@@ -51,7 +51,7 @@ export default function SideBar({ className }) {
               location={location}
             />
             <MenuItem
-              title="Migrantes"
+              title="Usuarios"
               to="/user"
               Icon={() => <PeopleIcon />}
               user={user}
