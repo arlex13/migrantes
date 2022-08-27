@@ -9,8 +9,8 @@ class UserPermissions(BasePermission):
     def has_permission(self, request, view):
         user = request.user
 
-        if user.is_superuser:
-            return True
+        # if user.is_superuser:
+        #     return True
         if view.action in ['me']:
             return True
         if request.method == 'GET' and request.query_params.get('async_options') == "true":
