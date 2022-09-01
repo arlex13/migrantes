@@ -5,6 +5,7 @@ import {
     required,
     date,
     password,
+    maxLength,
 } from "../../validations";
 
 export const Validations = (validations) => {
@@ -24,6 +25,12 @@ export const Validations = (validations) => {
     }
     if (validations.includes("alphanumeric")) {
         _validations.push(alphanumeric)
+    }
+    if (validations.includes("maxLength-20")) {
+        _validations.push(maxLength(20))
+    }
+    if (validations.includes("maxLength-250")) {
+        _validations.push(maxLength(250))
     }
 
     return { validate: composeValidators(..._validations) }

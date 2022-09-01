@@ -31,7 +31,7 @@ export function minLength(min) {
 export function maxLength(max) {
   return (value) => {
     if (!isEmpty(value) && value.length > max) {
-      return `No debe tener mas de ${max} caracteres.`;
+      return `No debe tener más de ${max} caracteres.`;
     }
 
     return null;
@@ -72,11 +72,11 @@ export function greaterThenToday(value) {
 
 export const composeValidators =
   (...validators) =>
-  (value) =>
-    validators.reduce(
-      (error, validator) => error || validator(value),
-      undefined
-    );
+    (value) =>
+      validators.reduce(
+        (error, validator) => error || validator(value),
+        undefined
+      );
 
 export function alphanumeric(value) {
   const regularExpression = /^[a-z0-9]+$/i;

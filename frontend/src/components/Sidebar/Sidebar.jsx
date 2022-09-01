@@ -44,13 +44,6 @@ export default function SideBar({ className }) {
             <br />
             <br />
             <MenuItem
-              title="Inicio"
-              to="/"
-              user={user}
-              Icon={() => <HomeIcon />}
-              location={location}
-            />
-            <MenuItem
               title="Usuarios"
               to="/user"
               Icon={() => <PeopleIcon />}

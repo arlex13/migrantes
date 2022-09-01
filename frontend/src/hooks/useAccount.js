@@ -16,7 +16,7 @@ export default function useAccount() {
     api
       .post("user/login", data)
       .then((response) => {
-        navigate("/");
+        navigate("/migrante");
         dispatch(setUser(response));
       })
       .catch((e) => {
@@ -37,9 +37,9 @@ export default function useAccount() {
         dispatch(setUser(me));
       })
       .catch(() => {
-        navigate("/login");
+        navigate("/");
       })
-      .finally(() => {});
+      .finally(() => { });
   };
 
   const logOut = () => {
@@ -48,9 +48,9 @@ export default function useAccount() {
       .post("/user/logout")
       .then(() => {
         dispatch(setUser({}));
-        navigate("/login");
+        navigate("/");
       })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => {
         dispatch(setLoading(false));
       });

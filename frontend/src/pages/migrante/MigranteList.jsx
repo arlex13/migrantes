@@ -33,6 +33,18 @@ export default function () {
         Header: "Apellidos",
         accessor: "apellidos",
       },
+      {
+        Header: "No. Identificación",
+        accessor: "no_identificacion",
+      },
+      {
+        Header: "País",
+        accessor: "pais",
+      },
+      {
+        Header: "No. Deportados",
+        accessor: "no_deportados",
+      },
     ],
     []
   );

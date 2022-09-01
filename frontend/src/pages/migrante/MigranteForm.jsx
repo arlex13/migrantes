@@ -88,9 +88,21 @@ export default function UsuarioForm({
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="w-full flex flex-wrap">
         {[
-          { name: "nombres", title: "Nombre" },
-          { name: "apellidos", title: "Apellido" },
-          { name: "no_identificacion", title: "No. Identificación" },
+          {
+            name: "nombres",
+            title: "Nombre",
+            validations: ["required", "maxLength-250"],
+          },
+          {
+            name: "apellidos",
+            title: "Apellido",
+            validations: ["required", "maxLength-250"],
+          },
+          {
+            name: "no_identificacion",
+            title: "No. Identificación",
+            validations: ["required", "maxLength-20"],
+          },
           {
             name: "fecha_nacimiento",
             title: "Fecha de Nacimiento",
@@ -129,10 +141,12 @@ export default function UsuarioForm({
           {
             name: "ciudad_pueblo",
             title: "Ciudad/Pueblo",
+            validations: ["required", "maxLength-250"],
           },
           {
             name: "departamento",
             title: "Departamento",
+            validations: ["required", "maxLength-250"],
           },
           {
             name: "pais",
@@ -142,6 +156,7 @@ export default function UsuarioForm({
           {
             name: "ocupacion",
             title: "Ocupación",
+            validations: ["required", "maxLength-250"],
           },
         ].map((props, index) => {
           return (

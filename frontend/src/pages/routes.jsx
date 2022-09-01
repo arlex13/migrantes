@@ -11,20 +11,14 @@ import UserRoutes from "./user";
 // Styles
 import "react-toastify/dist/ReactToastify.min.css";
 import MigranteRoutes from "./migrante";
+import PaginaPublica from "./publico";
 
 export default function App() {
   return (
     <>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route
-          path="/"
-          element={
-            <PrivateRoute>
-              <Home />
-            </PrivateRoute>
-          }
-        />
+        <Route path="/" element={<PaginaPublica />} />
         <Route
           path="/user/*"
           element={
