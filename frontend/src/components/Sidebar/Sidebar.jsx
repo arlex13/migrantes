@@ -6,7 +6,7 @@ import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import ConstructionIcon from "@mui/icons-material/Construction";
 import "./sidebar.css";
 
-function MenuItem({ Icon, title, to, user, allowTo = [], location }) {
+function MenuItem({ title, to, user, allowTo = [], location }) {
   const onClickItem = () => {
     const sidebar = document.getElementById("sidebar");
     if (sidebar) sidebar.classList.remove("open");
@@ -23,7 +23,6 @@ function MenuItem({ Icon, title, to, user, allowTo = [], location }) {
         end
         className={`menu-link ${isActive ? "active" : ""} `}
       >
-        {/* {Icon && <Icon />} */}
         <span className="pl-2">{title}</span>
       </NavLink>
     </li>
@@ -44,16 +43,20 @@ export default function SideBar({ className }) {
             <br />
             <br />
             <MenuItem
+              title="Inicio"
+              to="/inicio"
+              user={user}
+              location={location}
+            />
+            <MenuItem
               title="Usuarios"
               to="/user"
-              Icon={() => <PeopleIcon />}
               user={user}
               location={location}
             />
             <MenuItem
               title="Migrantes"
               to="/migrante"
-              Icon={() => <ConstructionIcon />}
               user={user}
               location={location}
             />

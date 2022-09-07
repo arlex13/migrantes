@@ -16,7 +16,7 @@ export default function useAccount() {
     api
       .post("user/login", data)
       .then((response) => {
-        navigate("/migrante");
+        navigate("/inicio");
         dispatch(setUser(response));
       })
       .catch((e) => {

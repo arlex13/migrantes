@@ -28,6 +28,14 @@ export default function App() {
           }
         />
         <Route
+          path="/inicio"
+          element={
+            <PrivateRoute>
+              <Home />
+            </PrivateRoute>
+          }
+        />
+        <Route
           path="/migrante/*"
           element={
             <PrivateRoute>
