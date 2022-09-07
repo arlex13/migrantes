@@ -73,3 +73,31 @@ class MigranteViewSet(viewsets.ModelViewSet):
         # serializer = self.get_serializer(instance).data
 
         return Response({'data': 'hola hola'})
+
+    @action(methods=["get"], detail=False)
+    def graficas(self, request, *args, **kwargs):
+        data = [
+            {
+                "label": "Guatemala",
+                "data": [10, 20, 10, 30, 50, 80, 10, 30, 10, 20, 20, 50],
+                "backgroundColor": "#4c51bf",
+            },
+            {
+                "label": "USA",
+                "data": [20, 80, 10, 50, 50, 30, 20, 20, 80, 10, 10, 50],
+                "backgroundColor": "rgb(155, 99, 132)",
+            },
+            {
+                "label": "MEXICO",
+                "data": [20, 80, 60, 10, 60, 30, 20, 20, 15, 50, 10, 50],
+                "backgroundColor": "rgb(255, 99, 132)",
+            },  
+            {
+                "label": "France",
+                "data": [70, 30, 20, 80, 15, 30, 35, 80, 15, 50, 10, 50],
+                "backgroundColor": "rgb(53, 162, 235)",
+            },
+
+        ]
+
+        return Response(data)
