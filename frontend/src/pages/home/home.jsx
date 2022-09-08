@@ -66,7 +66,7 @@ export default function Home() {
   const getDataGrafica = async () => {
     dispatch(setLoading(true));
     try {
-      const data = await api.get(`migrante/graficas`);
+      const data = await api.get(`estadisticas/genero`);
       setDataGrafica(data);
     } catch (e) {
       let msj = "No se pudo obtener el registro";
@@ -91,7 +91,16 @@ export default function Home() {
         <div>
           <Bar
             options={options}
-            data={{ labels: meses, datasets: dataServicio }}
+            data={{
+              labels: meses,
+              datasets: dataServicio?.data_pais_origen || [],
+            }}
+          />
+        </div>
+        <div>
+          <Bar
+            options={options}
+            data={{ labels: meses, datasets: dataServicio?.data_genero || [] }}
           />
         </div>
       </div>
