@@ -17,6 +17,11 @@ import { toast } from "react-toastify";
 import _ from "lodash";
 import api from "api";
 
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -27,12 +32,6 @@ ChartJS.register(
 );
 
 export const options = {
-  plugins: {
-    title: {
-      display: true,
-      text: "Migrantes por País de Origen",
-    },
-  },
   responsive: true,
   scales: {
     x: {
@@ -58,15 +57,21 @@ const meses = [
   "Noviembre",
   "Diciembre",
 ];
+//constantes años desde 2022 hasta al año actual
+const YEARS = _.range(2022, new Date().getFullYear() + 1);
 
 export default function Home() {
   const [dataServicio, setDataGrafica] = useState([]);
   const dispatch = useDispatch();
+  const [anio, setAnio] = useState(new Date().getFullYear());
 
-  const getDataGrafica = async () => {
+  const getDataGrafica = async (anio) => {
+    console.log("anio", anio);
     dispatch(setLoading(true));
     try {
-      const data = await api.get(`estadisticas/genero`);
+      const data = await api.get(`estadisticas/informacion`, {
+        params: { anio },
+      });
       setDataGrafica(data);
     } catch (e) {
       let msj = "No se pudo obtener el registro";
@@ -79,30 +84,76 @@ export default function Home() {
   };
 
   useEffect(() => {
-    getDataGrafica();
+    getDataGrafica(new Date().getFullYear());
   }, []);
 
   return (
     <>
       <div className="flex mb-2 sm:mb-0">
         <h1 className="text-title">Migrantes</h1>
+        <div className=" ml-auto">
+          Filtro Año:{"  "}
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={anio}
+            onChange={(e) => {
+              setAnio(e.target.value);
+              getDataGrafica(e.target.value);
+            }}
+          >
+            {YEARS.map((year) => (
+              <MenuItem key={year} value={year}>
+                {year}
+              </MenuItem>
+            ))}
+            <MenuItem value={2023}>2023</MenuItem>
+          </Select>
+        </div>
       </div>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-20 mt-4">
         <div>
           <Bar
-            options={options}
-            data={{
-              labels: meses,
-              datasets: dataServicio?.data_pais_origen || [],
+            options={{
+              plugins: {
+                title: { display: true, text: "Migrantes por Genero" },
+              },
+              ...options,
             }}
+            data={{ labels: meses, datasets: dataServicio?.genero || [] }}
           />
         </div>
         <div>
           <Bar
-            options={options}
-            data={{ labels: meses, datasets: dataServicio?.data_genero || [] }}
+            options={{
+              plugins: {
+                title: { display: true, text: "Migrantes por Estado Civil" },
+              },
+              ...options,
+            }}
+            data={{ labels: meses, datasets: dataServicio?.estado_civil || [] }}
           />
         </div>
+        <div>
+          <Bar
+            options={{
+              plugins: {
+                title: { display: true, text: "Migrantes por Escolaridad" },
+              },
+              ...options,
+            }}
+            data={{ labels: meses, datasets: dataServicio?.escolaridad || [] }}
+          />
+        </div>
+        {/* <div>
+          <Bar
+            options={{plugins: { title:{display:true,text: "titulo 12"}},...options}}
+            data={{
+              labels: meses,
+              datasets: dataServicio?.pais_origen || [],
+            }}
+          />
+        </div> */}
       </div>
     </>
   );

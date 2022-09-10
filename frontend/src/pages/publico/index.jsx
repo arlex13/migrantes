@@ -94,12 +94,12 @@ const PaginaPublica = () => {
             comunícate directamente con ellos.
           </p>
         </div>
-        <div className=" p-6 md:max-w-sm sm:m-10 bg-white rounded-lg border border-red-100 shadow-md hover:bg-red-100 dark:bg-red-700 dark:border-red-700 dark:hover:bg-red-600">
+        {/* <div className=" p-6 md:max-w-sm sm:m-10 bg-white rounded-lg border border-red-100 shadow-md hover:bg-red-100 dark:bg-red-700 dark:border-red-700 dark:hover:bg-red-600">
           <p className="font-normal text-gray-700 dark:text-gray-100">
             Tu familiar si estuvo en la casa del migrante, para más información
             comunícate directamente con ellos.
           </p>
-        </div>
+        </div> */}
       </div>
     </>
   );
