@@ -141,6 +141,37 @@ class EstadisticasViewSet(viewsets.ViewSet):
     data_escolaridad =[primaria, secundaria, superior, analfabeta]
     return data_escolaridad
 
+  @action(methods=['get'], detail=False)
+  def pais(self):
+    anio = self.request.query_params.get('anio', date.today().year)
+
+    query = Migrante.objects.filter(created__year=anio).values('id', 'pais','created')
+
+    guatemala = { "label":"Guatemala" ,"backgroundColor" : "rgb(75, 192, 192)",'data': map(lambda x:0, MESES)}
+    honduras = { "label":"Honduras" ,"backgroundColor" : "rgb(155, 99, 132)",'data': map(lambda x:0, MESES)}
+    el_salvador = { "label":"El Salvador" ,"backgroundColor" : "rgb(100, 102, 100)",'data': map(lambda x:0, MESES)}
+
+    DEFAULT = [ guatemala, honduras, el_salvador]
+
+    DATOS_POR_PAISES = []
+
+    tabla = pd.DataFrame(query)
+    if tabla.shape[0] > 1:	
+      tabla['conteo'] = 1
+      tabla['mes'] = pd.to_datetime(tabla['created']).dt.month
+
+      for pais in tabla['pais'].sort_values().unique():
+        datos_pais = {}
+        tabla_pais = tabla.query("pais=='%s'" % pais).groupby(by=['mes'], as_index=False).agg({"conteo":"sum"})
+        tabla_pais.sort_values(by="mes", inplace=True)
+        datos_pais['data'] = self.__obtener_dato_mes(tabla_pais.to_dict("records"))
+        datos_pais['label'] = pais
+        datos_pais['backgroundColor'] = 'rgb(100, 102, 100)'
+
+        DATOS_POR_PAISES.append(datos_pais) 
+      return DATOS_POR_PAISES
+    return DEFAULT
+
   def __obtener_dato_mes(self, lista_datos):
     datos_meses = []
     for mes in MESES:
