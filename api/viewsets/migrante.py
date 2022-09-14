@@ -10,6 +10,7 @@ from rest_framework.permissions import AllowAny
 
 # Models
 from api.models import Migrante
+from django.db.models import Q
 
 # Serializer
 from api.serializers import MigranteBaseSerializer, MigranteReadSerializer, MigranteSaveSerializer
@@ -18,7 +19,6 @@ from api.serializers import MigranteBaseSerializer, MigranteReadSerializer, Migr
 class MigranteViewSet(viewsets.ModelViewSet):
     serializer_class = MigranteReadSerializer
     queryset = Migrante.objects.filter(active=True)
-    permission_classes = [AllowAny]
 
     filter_backends = (DjangoFilterBackend,
                        filters.SearchFilter, filters.OrderingFilter)
@@ -26,10 +26,10 @@ class MigranteViewSet(viewsets.ModelViewSet):
     search_fields = ("nombres",)
     ordering_fields = ("id", "nombres")
 
-    # def get_permissions(self):
-    #     if self.action in ('buscar',):
-    #         self.permission_classes = [AllowAny]
-    #     return super(self.__class__, self).get_permissions()
+    def get_permissions(self):
+        if self.action in ('buscar',):
+            self.permission_classes = [AllowAny]
+        return super(self.__class__, self).get_permissions()
 
     def get_serializer_class(self):
         """Define serializer for API"""
@@ -68,36 +68,10 @@ class MigranteViewSet(viewsets.ModelViewSet):
 
     @action(methods=["get"], detail=False)
     def buscar(self, request, *args, **kwargs):
+        search = request.query_params.get('search', None)
+        if search:
+            migrante = Migrante.objects.filter(Q(nombres__icontains=search) | Q(apellidos__icontains=search)).first()
+            if migrante:
+                return Response(True, status=status.HTTP_200_OK)
+        return Response(False, status=status.HTTP_200_OK)
 
-        # instance = self.get_object()
-        # serializer = self.get_serializer(instance).data
-
-        return Response({'data': 'hola hola'})
-
-    @action(methods=["get"], detail=False)
-    def graficas(self, request, *args, **kwargs):
-        data = [
-            {
-                "label": "Guatemala",
-                "data": [10, 20, 10, 30, 50, 80, 10, 30, 10, 20, 20, 50],
-                "backgroundColor": "#4c51bf",
-            },
-            {
-                "label": "USA",
-                "data": [20, 80, 10, 50, 50, 30, 20, 20, 80, 10, 10, 50],
-                "backgroundColor": "rgb(155, 99, 132)",
-            },
-            {
-                "label": "MEXICO",
-                "data": [20, 80, 60, 10, 60, 30, 20, 20, 15, 50, 10, 50],
-                "backgroundColor": "rgb(255, 99, 132)",
-            },  
-            {
-                "label": "France",
-                "data": [70, 30, 20, 80, 15, 30, 35, 80, 15, 50, 10, 50],
-                "backgroundColor": "rgb(53, 162, 235)",
-            },
-
-        ]
-
-        return Response(data)

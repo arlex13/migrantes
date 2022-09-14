@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Table, { tableActions } from "../../components/Table";
@@ -10,11 +10,49 @@ import Search from "../../components/Search/Search";
 import ButtonUi from "../../components/UI";
 import casa from "../../assets/img/casa_migrante.png";
 import bandera from "../../assets/img/bandera.png";
+import api from "api";
+import { Card } from "@mui/material";
 
 const PaginaPublica = () => {
   const { data, page, getData } = useList("migrante/buscar");
   const [search, setSearch] = useState(null);
   const navigate = useNavigate();
+  const [mostrarMensaje, setMostrarMensaje] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMostrarMensaje(false);
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, [mostrarMensaje]);
+
+  const migranteEncontrado = () => {
+    console.log("el emigrante se encuentra");
+    setMostrarMensaje({
+      mensaje:
+        "Tu familiar si estuvo en la casa del migrante, para más información comunícate directamente con ellos.",
+      tipo: "success",
+    });
+  };
+
+  const migranteNoEncontrado = () => {
+    setMostrarMensaje({
+      mensaje:
+        "Tu familiar no estuvo en la casa del migrante, para más información comunícate directamente con ellos.",
+      tipo: "error",
+    });
+  };
+
+  const realizarBusqueda = async (a) => {
+    const response = await api.get(`migrante/buscar`, {
+      params: { search: a },
+    });
+    if (response) {
+      migranteEncontrado();
+    } else {
+      migranteNoEncontrado();
+    }
+  };
 
   return (
     <>
@@ -72,35 +110,38 @@ const PaginaPublica = () => {
         los siguientes centros:
       </p>
       <div className="container mx-auto md:m-12">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 sm:gap-8 md:m-4">
+        <div
+          className="grid grid-cols-1 gap-6 sm:gap-8 md:m-4 mx-auto"
+          style={{ maxWidth: 550, marginLeft: "auto", marginRight: "auto" }}
+        >
           <Search
-            className="md:col-span-1"
-            onSearch={(value) => {
-              getData(1, {
-                search: value,
-              }).then();
-              setSearch(value);
-            }}
+            className="md:col-span-1 mx-auto"
+            onSearch={realizarBusqueda}
           />
-          <button className="w-full md:w-40 md:justify-self-center bg-blue-500 rounded hover:bg-blue-700 text-white font-bold py-2">
-            Buscar
-          </button>
         </div>
       </div>
-      <div className="container mx-auto m-10">
-        <div className=" p-6 md:max-w-sm sm:m-10 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-          <p className="font-normal text-gray-700 dark:text-gray-100">
-            Tu familiar si estuvo en la casa del migrante, para más información
-            comunícate directamente con ellos.
-          </p>
+      {mostrarMensaje && (
+        <div
+          className="container mx-auto md:m-12"
+          style={{ maxWidth: 550, marginLeft: "auto", marginRight: "auto" }}
+        >
+          <div
+            className="grid grid-cols-1 gap-6 sm:gap-8 md:m-4 mx-auto"
+            style={{ maxWidth: 550, marginLeft: "auto", marginRight: "auto" }}
+          >
+            <div
+              className={`md:col-span-1 mx-auto border-solid border-2 border-gray-300 rounded-md p-5 text-white ${
+                mostrarMensaje.tipo === "success"
+                  ? "bg-[#3d7dad]"
+                  : "bg-red-500"
+              }`}
+              title="Resultado de la busqueda"
+            >
+              <p>{mostrarMensaje?.mensaje}</p>
+            </div>
+          </div>
         </div>
-        {/* <div className=" p-6 md:max-w-sm sm:m-10 bg-white rounded-lg border border-red-100 shadow-md hover:bg-red-100 dark:bg-red-700 dark:border-red-700 dark:hover:bg-red-600">
-          <p className="font-normal text-gray-700 dark:text-gray-100">
-            Tu familiar si estuvo en la casa del migrante, para más información
-            comunícate directamente con ellos.
-          </p>
-        </div> */}
-      </div>
+      )}
     </>
   );
 };

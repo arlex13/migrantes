@@ -20,30 +20,7 @@ class EstadisticasViewSet(viewsets.ViewSet):
     data_genero = self.genero()
     data_estado_civil = self.estado_civil()
     data_escolaridad = self.escolaridad()
-
-    data_pais_origen = [
-          {
-              "label": "Guatemala",
-              "data": [10, 20, 10, 30, 50, 80, 10, 30, 10, 20, 20, 50],
-              "backgroundColor": "#4c51bf",
-          },
-          {
-              "label": "USA",
-              "data": [20, 80, 10, 50, 50, 30, 20, 20, 80, 10, 10, 50],
-              "backgroundColor": "rgb(155, 99, 132)",
-          },
-          {
-              "label": "MEXICO",
-              "data": [20, 80, 60, 10, 60, 30, 20, 20, 15, 50, 10, 50],
-              "backgroundColor": "rgb(255, 99, 132)",
-          },  
-          {
-              "label": "France",
-              "data": [70, 30, 20, 80, 15, 30, 35, 80, 15, 50, 10, 50],
-              "backgroundColor": "rgb(53, 162, 235)",
-          },
-
-      ]
+    data_pais_origen = self.pais()
 
     data = {
 
@@ -141,7 +118,6 @@ class EstadisticasViewSet(viewsets.ViewSet):
     data_escolaridad =[primaria, secundaria, superior, analfabeta]
     return data_escolaridad
 
-  @action(methods=['get'], detail=False)
   def pais(self):
     anio = self.request.query_params.get('anio', date.today().year)
 
@@ -153,6 +129,7 @@ class EstadisticasViewSet(viewsets.ViewSet):
 
     DEFAULT = [ guatemala, honduras, el_salvador]
 
+    backgroundColors = [ "rgb(75, 192, 192)", "rgb(53, 162, 250)", "rgb(155, 99, 132)", "rgb(100, 102, 100)"]    
     DATOS_POR_PAISES = []
 
     tabla = pd.DataFrame(query)
@@ -160,14 +137,17 @@ class EstadisticasViewSet(viewsets.ViewSet):
       tabla['conteo'] = 1
       tabla['mes'] = pd.to_datetime(tabla['created']).dt.month
 
+      color = 0
       for pais in tabla['pais'].sort_values().unique():
         datos_pais = {}
         tabla_pais = tabla.query("pais=='%s'" % pais).groupby(by=['mes'], as_index=False).agg({"conteo":"sum"})
         tabla_pais.sort_values(by="mes", inplace=True)
         datos_pais['data'] = self.__obtener_dato_mes(tabla_pais.to_dict("records"))
         datos_pais['label'] = pais
-        datos_pais['backgroundColor'] = 'rgb(100, 102, 100)'
-
+        datos_pais['backgroundColor'] = backgroundColors[color]
+        color += 1
+        if color == 4:
+          color = 0
         DATOS_POR_PAISES.append(datos_pais) 
       return DATOS_POR_PAISES
     return DEFAULT

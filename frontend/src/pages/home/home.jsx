@@ -145,15 +145,18 @@ export default function Home() {
             data={{ labels: meses, datasets: dataServicio?.escolaridad || [] }}
           />
         </div>
-        {/* <div>
+        <div>
           <Bar
-            options={{plugins: { title:{display:true,text: "titulo 12"}},...options}}
+            options={{
+              plugins: { title: { display: true, text: "titulo 12" } },
+              ...options,
+            }}
             data={{
               labels: meses,
               datasets: dataServicio?.pais_origen || [],
             }}
           />
-        </div> */}
+        </div>
       </div>
     </>
   );
