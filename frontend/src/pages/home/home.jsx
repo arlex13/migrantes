@@ -148,7 +148,9 @@ export default function Home() {
         <div>
           <Bar
             options={{
-              plugins: { title: { display: true, text: "titulo 12" } },
+              plugins: {
+                title: { display: true, text: "Migrantes por país de origen" },
+              },
               ...options,
             }}
             data={{

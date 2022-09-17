@@ -12,6 +12,7 @@ import UserRoutes from "./user";
 import "react-toastify/dist/ReactToastify.min.css";
 import MigranteRoutes from "./migrante";
 import PaginaPublica from "./publico";
+import ReportesRoutes from "./reportes";
 
 export default function App() {
   return (
@@ -43,6 +44,15 @@ export default function App() {
             </PrivateRoute>
           }
         />
+        <Route
+          path="/reportes"
+          element={
+            <PrivateRoute>
+              <ReportesRoutes />
+            </PrivateRoute>
+          }
+        />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
       <ToastContainer

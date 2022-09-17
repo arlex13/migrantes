@@ -15,6 +15,26 @@ class EstadisticasViewSet(viewsets.ViewSet):
   permission_classes = [AllowAny]
 
   @action(methods=['get'], detail=False)
+  def informacionReportes(self, request, *args , **kwargs):
+    anio = self.request.query_params.get('anio', date.today().year)
+    query = Migrante.objects.filter(created__year=anio).values('id', 'genero','created')
+    tabla = pd.DataFrame(query)
+    data_json = []
+    if tabla.shape[0] > 1:
+      tabla.rename(columns={'genero':'titulo'}, inplace=True)
+      tabla['conteo'] = 1
+      tabla['mes'] = pd.to_datetime(tabla['created']).dt.month_name(locale='Spanish')
+      tabla = tabla.groupby(by=['titulo','mes'], as_index=False).agg({"conteo":"sum"})
+      tabla_pivot = pd.pivot_table(tabla, index=['titulo'], values='conteo', columns='mes',
+        fill_value=0, aggfunc={'conteo': 'sum'}).reset_index()
+      tabla_pivot.loc['totales']= tabla_pivot.sum(numeric_only=True, axis=0)
+      tabla_pivot.loc[:,'total'] = tabla_pivot.sum(numeric_only=True, axis=1)
+      tabla_pivot.at[tabla_pivot.index[-1], 'titulo'] = 'total'
+      tabla_pivot['porcentaje'] = tabla_pivot['total'].apply(lambda x: (x / tabla['conteo'].sum()) * 100).round(2)
+      data_json = tabla_pivot.to_json(orient="records")
+    return Response(data_json, status=status.HTTP_200_OK)
+
+  @action(methods=['get'], detail=False)
   def informacion(self, request, *args , **kwargs):
     
     data_genero = self.genero()

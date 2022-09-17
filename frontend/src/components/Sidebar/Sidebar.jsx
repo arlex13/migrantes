@@ -42,24 +42,12 @@ export default function SideBar({ className }) {
           <ul className="p-0 pb-16">
             <br />
             <br />
-            <MenuItem
-              title="Inicio"
-              to="/inicio"
-              user={user}
-              location={location}
-            />
-            <MenuItem
-              title="Usuarios"
-              to="/user"
-              user={user}
-              location={location}
-            />
-            <MenuItem
-              title="Migrantes"
-              to="/migrante"
-              user={user}
-              location={location}
-            />
+
+            <MenuItem title="Inicio" to="/inicio" location={location} />
+            {/* <MenuItem title="Reportes" to="/reportes" location={location} /> */}
+            <MenuItem title="Usuarios" to="/user" location={location} />
+            <MenuItem title="Migrantes" to="/migrante" location={location} />
+
             <li className="menu-item my-2 mt-36" onClick={() => {}}>
               <div className="menu-link" onClick={logOut}>
                 <RadioButtonUncheckedIcon />
