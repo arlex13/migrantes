@@ -9,11 +9,12 @@ import _ from "lodash";
 export default function Migrante() {
   const urlList = "/migrante";
   const { saveData } = useCreate("migrante", urlList);
-  const { data, updateData, update } = useUpdate("migrante", urlList);
+  const { data, updateData, update, setData } = useUpdate("migrante", urlList);
   const loading = useSelector((state) => state.loading.loading);
 
   const onSubmit = async (data) => {
     const body = { ...data };
+    setData(data);
     body.fecha_nacimiento = dayjs(data.fecha_nacimiento).format("YYYY-MM-DD");
 
     if (!update) saveData(body);

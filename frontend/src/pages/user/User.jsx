@@ -9,11 +9,12 @@ import _ from "lodash";
 export default function User() {
   const urlList = "/user";
   const { saveData } = useCreate("user", urlList);
-  const { data, updateData, update } = useUpdate("user", urlList);
+  const { data, updateData, update, setData } = useUpdate("user", urlList);
   const loading = useSelector((state) => state.loading.loading);
 
   const onSubmit = async (data) => {
     const body = { ...data };
+    setData(data);
     delete body.rol;
     delete body.password;
     if (_.get(data, "rol.id", undefined) !== undefined) {

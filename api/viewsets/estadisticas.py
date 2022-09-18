@@ -16,12 +16,54 @@ class EstadisticasViewSet(viewsets.ViewSet):
 
   @action(methods=['get'], detail=False)
   def informacionReportes(self, request, *args , **kwargs):
+
+    data =[
+      {
+      "titulo": "Migrantes por País de origen",
+      "data": self.reporte("pais")
+      },
+      {
+        "titulo": "Migrantes por Genero",
+        "data": self.reporte("genero")
+      },
+      {
+        "titulo": "Migrantes por Estado Civil",
+        "data": self.reporte("estado_civil")
+      },
+      {
+        "titulo": "Migrantes por Escolaridad",
+        "data": self.reporte("escolaridad")
+      },
+      {
+        "titulo": "Migrantes por Religión",
+        "data": self.reporte("religion")
+      },
+      {
+        "titulo": "Migrantes por Causa de Migración",
+        "data": self.reporte("causa_migracion")
+      },
+      {
+        "titulo": "Migrantes por Familiares en el Norte",
+        "data": self.reporte("familia_en_el_norte")
+      },
+      {
+        "titulo": "Migrantes por Planes",
+        "data": self.reporte("planes")
+      },
+      {
+        "titulo": "Migrantes por Deportación",
+        "data": self.reporte("no_deportados")
+      },
+    ]
+    return Response(data, status=status.HTTP_200_OK)
+
+  def reporte(self,propiedad):
     anio = self.request.query_params.get('anio', date.today().year)
-    query = Migrante.objects.filter(created__year=anio).values('id', 'genero','created')
+    query = Migrante.objects.filter(created__year=anio).values('id', propiedad,'created')
     tabla = pd.DataFrame(query)
     data_json = []
     if tabla.shape[0] > 1:
-      tabla.rename(columns={'genero':'titulo'}, inplace=True)
+      tabla.rename(columns={propiedad:'titulo'}, inplace=True)
       tabla['conteo'] = 1
       tabla['mes'] = pd.to_datetime(tabla['created']).dt.month_name(locale='Spanish')
       tabla = tabla.groupby(by=['titulo','mes'], as_index=False).agg({"conteo":"sum"})
@@ -32,7 +74,7 @@ class EstadisticasViewSet(viewsets.ViewSet):
       tabla_pivot.at[tabla_pivot.index[-1], 'titulo'] = 'total'
       tabla_pivot['porcentaje'] = tabla_pivot['total'].apply(lambda x: (x / tabla['conteo'].sum()) * 100).round(2)
       data_json = tabla_pivot.to_json(orient="records")
-    return Response(data_json, status=status.HTTP_200_OK)
+      return data_json
 
   @action(methods=['get'], detail=False)
   def informacion(self, request, *args , **kwargs):

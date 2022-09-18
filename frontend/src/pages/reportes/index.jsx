@@ -8,7 +8,11 @@ class ExportPdfComponent extends React.Component {
       <div>
         <ReactToPrint
           content={() => this.componentRef}
-          trigger={() => <button className="btn btn-primary">Imprimir </button>}
+          trigger={() => (
+            <button className="btn btn-primary">
+              Imprimir ó guardar en PDF{" "}
+            </button>
+          )}
         />
         <div
           ref={(response) => (this.componentRef = response)}
@@ -24,10 +28,13 @@ class ExportPdfComponent extends React.Component {
             </h1>
             <h1 className="mx-auto  text-sm">GUATEMALA, C.A. </h1>
           </div>
-          <TableComponent
-            titulo="Migrantes por país de origen"
-            data={this.props.dataServicio || []}
-          />
+          {this.props.datosReportes.map((item, index) => (
+            <TableComponent
+              key={index}
+              titulo={item.titulo}
+              data={JSON.parse(item.data) || []}
+            />
+          ))}
         </div>
       </div>
     );
@@ -43,7 +50,7 @@ import { setLoading } from "@redux/loadingSlice";
 const YEARS = _.range(2022, new Date().getFullYear() + 1);
 
 const REPORTES = () => {
-  const [dataServicio, setDataGrafica] = useState(false);
+  const [datosReportes, setDataGrafica] = useState(false);
   const dispatch = useDispatch();
   const [anio, setAnio] = useState(new Date().getFullYear());
 
@@ -54,7 +61,7 @@ const REPORTES = () => {
       const data = await api.get(`estadisticas/informacionReportes`, {
         params: { anio },
       });
-      setDataGrafica(JSON.parse(data));
+      setDataGrafica(data);
     } catch (e) {
       let msj = "No se pudo obtener el registro";
       if (e && e.detail) msj = e.detail;
@@ -92,7 +99,7 @@ const REPORTES = () => {
           </Select>
         </div>
       </div>
-      {dataServicio && <ExportPdfComponent dataServicio={dataServicio} />}
+      {datosReportes && <ExportPdfComponent datosReportes={datosReportes} />}
     </>
   );
 };

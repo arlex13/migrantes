@@ -17,7 +17,7 @@ const Head = [
   "Porcentaje",
 ];
 
-const TableComponent = ({ categoria = "Item1", data: datos = [], titulo }) => {
+const TableComponent = ({ categoria = "-", data: datos = [], titulo }) => {
   const getRangoFecha = () => {
     const date = new Date();
     const year = date.getFullYear();
@@ -50,53 +50,26 @@ const TableComponent = ({ categoria = "Item1", data: datos = [], titulo }) => {
               class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
             >
               <th
+                key={`${index}${item.titulo}`}
                 scope="row"
                 class="py-1 px-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
               >
                 {item.titulo}
               </th>
-              <td key={index} class="py-1 px-2">
-                {item["Enero"]}
-              </td>
-              <td key={index} class="py-1 px-2">
-                {item["Febrero"]}
-              </td>
-              <td key={index} class="py-1 px-2">
-                {item["Marzo"]}
-              </td>
-              <td key={index} class="py-1 px-2">
-                {item["Abril"]}
-              </td>
-              <td key={index} class="py-1 px-2">
-                {item["Mayo"]}
-              </td>
-              <td key={index} class="py-1 px-2">
-                {item["Junio"]}
-              </td>
-              <td key={index} class="py-1 px-2">
-                {item["Julio"]}
-              </td>
-              <td key={index} class="py-1 px-2">
-                {item["Agosto"]}
-              </td>
-              <td key={index} class="py-1 px-2">
-                {item["Septiembre"]}
-              </td>
-              <td key={index} class="py-1 px-2">
-                {item["Octubre"]}
-              </td>
-              <td key={index} class="py-1 px-2">
-                {item["Noviembre"]}
-              </td>
-              <td key={index} class="py-1 px-2">
-                {item["Diciembre"]}
-              </td>
-              <td key={index} class="py-1 px-2">
-                {item["total"]}
-              </td>
-              <td key={index} class="py-1 px-2">
-                {item["porcentaje"]}
-              </td>
+              <td class="py-1 px-2">{item["Enero"] || "0"}</td>
+              <td class="py-1 px-2">{item["Febrero"] || "0"}</td>
+              <td class="py-1 px-2">{item["Marzo"] || "0"}</td>
+              <td class="py-1 px-2">{item["Abril"] || "0"}</td>
+              <td class="py-1 px-2">{item["Mayo"] || "0"}</td>
+              <td class="py-1 px-2">{item["Junio"] || "0"}</td>
+              <td class="py-1 px-2">{item["Julio"] || "0"}</td>
+              <td class="py-1 px-2">{item["Agosto"] || "0"}</td>
+              <td class="py-1 px-2">{item["Septiembre"] || "0"}</td>
+              <td class="py-1 px-2">{item["Octubre"] || "0"}</td>
+              <td class="py-1 px-2">{item["Noviembre"] || "0"}</td>
+              <td class="py-1 px-2">{item["Diciembre"] || "0"}</td>
+              <td class="py-1 px-2">{item["total"] || "0"}</td>
+              <td class="py-1 px-2">{item["porcentaje"] || "0"} %</td>
             </tr>
           ))}
         </tbody>

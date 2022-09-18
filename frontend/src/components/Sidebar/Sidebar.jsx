@@ -44,7 +44,7 @@ export default function SideBar({ className }) {
             <br />
 
             <MenuItem title="Inicio" to="/inicio" location={location} />
-            {/* <MenuItem title="Reportes" to="/reportes" location={location} /> */}
+            <MenuItem title="Reportes" to="/reportes" location={location} />
             <MenuItem title="Usuarios" to="/user" location={location} />
             <MenuItem title="Migrantes" to="/migrante" location={location} />
 
