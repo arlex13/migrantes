@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import { SwalWarning } from "../SwalAlerts";
 import StickyNote2Icon from "@mui/icons-material/StickyNote2";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-
+import useAccount from "../../hooks/useAccount";
 
 function Actions({
   id,
@@ -18,6 +18,8 @@ function Actions({
   detallesProyecto = undefined,
   detallesPagos = undefined,
 }) {
+  const { user } = useAccount();
+
   const editAction = () => {
     edit(id, row);
   };
@@ -59,7 +61,7 @@ function Actions({
             <EditIcon color="primary" />
           </a>
         )}
-        {remove && (
+        {remove && user?.rol == 1 && (
           <a
             className="px-2"
             style={{ cursor: "pointer", color: "#c4183c" }}

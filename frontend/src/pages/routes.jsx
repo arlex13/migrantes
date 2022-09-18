@@ -13,21 +13,35 @@ import "react-toastify/dist/ReactToastify.min.css";
 import MigranteRoutes from "./migrante";
 import PaginaPublica from "./publico";
 import ReportesRoutes from "./reportes";
+import useAccount from "../hooks/useAccount";
 
 export default function App() {
+  const { user } = useAccount();
   return (
     <>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<PaginaPublica />} />
-        <Route
-          path="/user/*"
-          element={
-            <PrivateRoute>
-              <UserRoutes />
-            </PrivateRoute>
-          }
-        />
+        {user.rol == 1 && (
+          <>
+            <Route
+              path="/reportes"
+              element={
+                <PrivateRoute>
+                  <ReportesRoutes />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/user/*"
+              element={
+                <PrivateRoute>
+                  <UserRoutes />
+                </PrivateRoute>
+              }
+            />
+          </>
+        )}
         <Route
           path="/inicio"
           element={
@@ -41,14 +55,6 @@ export default function App() {
           element={
             <PrivateRoute>
               <MigranteRoutes />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/reportes"
-          element={
-            <PrivateRoute>
-              <ReportesRoutes />
             </PrivateRoute>
           }
         />

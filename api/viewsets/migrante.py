@@ -16,9 +16,13 @@ from django.db.models import Q
 from api.serializers import MigranteBaseSerializer, MigranteReadSerializer, MigranteSaveSerializer
 
 
+from api.permissions.user import UserAsistenteAdminPermissions
+from rest_framework.permissions import IsAuthenticated
+
 class MigranteViewSet(viewsets.ModelViewSet):
     serializer_class = MigranteReadSerializer
     queryset = Migrante.objects.filter(active=True)
+    permission_classes = [IsAuthenticated, UserAsistenteAdminPermissions]
 
     filter_backends = (DjangoFilterBackend,
                        filters.SearchFilter, filters.OrderingFilter)

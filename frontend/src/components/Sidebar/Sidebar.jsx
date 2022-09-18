@@ -44,8 +44,12 @@ export default function SideBar({ className }) {
             <br />
 
             <MenuItem title="Inicio" to="/inicio" location={location} />
-            <MenuItem title="Reportes" to="/reportes" location={location} />
-            <MenuItem title="Usuarios" to="/user" location={location} />
+            {user.rol == 1 && (
+              <>
+                <MenuItem title="Reportes" to="/reportes" location={location} />
+                <MenuItem title="Usuarios" to="/user" location={location} />
+              </>
+            )}
             <MenuItem title="Migrantes" to="/migrante" location={location} />
 
             <li className="menu-item my-2 mt-36" onClick={() => {}}>

@@ -17,8 +17,8 @@ export default function User() {
     setData(data);
     delete body.rol;
     delete body.password;
-    if (_.get(data, "rol.id", undefined) !== undefined) {
-      body.rol = data.rol.id;
+    if (_.get(data, "rol", undefined) !== undefined) {
+      body.rol = data.rol;
     }
     if (_.isString(data.password) && data.password != "") {
       body.password = data.password;

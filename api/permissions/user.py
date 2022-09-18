@@ -2,26 +2,40 @@
 from rest_framework.permissions import BasePermission
 from rest_framework.exceptions import PermissionDenied
 
+from api.models.user import User
+
 
 class UserPermissions(BasePermission):
-    """Restrict what the user can do according to the user rol """
-
     def has_permission(self, request, view):
         user = request.user
 
-        # if user.is_superuser:
-        #     return True
+        if user.is_superuser:
+            return True
         if view.action in ['me']:
             return True
         if request.method == 'GET' and request.query_params.get('async_options') == "true":
             return True
-        if view.action in ['retrieve', 'list'] and user.has_perm('api.view_user'):
-            return True
-        if view.action == "destroy" and user.has_perm('api.delete_user'):
-            return True
-        if view.action == "update" and user.has_perm('api.change_user'):
-            return True
-        if view.action == "create" and user.has_perm('api.add_user'):
+        if user.rol == User.ADMINISTRADOR:
             return True
         raise PermissionDenied(
-            'Usted no tiene permiso para realizar esta acción.')
+            'Solo los administradores pueden realizar esta acción')
+
+class UserAsistenteAdminPermissions(BasePermission):
+    def has_permission(self, request, view):
+        user = request.user
+
+        if  view.action != "destroy" and user.rol == User.ASISTENTE:
+            return True
+        if user.rol == User.ADMINISTRADOR:
+            return True
+        raise PermissionDenied(
+                'Solo los administradores pueden realizar esta acción')
+
+class UserAdminPermissions(BasePermission):
+    def has_permission(self, request, view):
+        user = request.user
+
+        if user.rol == User.ADMINISTRADOR:
+            return True
+        raise PermissionDenied(
+                'Solo los administradores pueden realizar esta acción')

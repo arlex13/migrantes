@@ -46,9 +46,9 @@ export function required(value) {
   return null;
 }
 export function password(value) {
-  const regularExpression = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{8,}$/;
-  if (!isEmpty(value) && !regularExpression.test(value)) {
-    return "La contraseña debe contener al menos 8 caracteres alfanuméricos(letras y números).";
+  var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$/
+  if (!isEmpty(value) && !regex.test(value)) {
+    return "La contraseña debe tener al menos 8 caracteres, una mayúscula, un número y un caracter especial.";
   }
   return null;
 }
