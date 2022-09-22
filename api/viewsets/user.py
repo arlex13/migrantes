@@ -45,13 +45,13 @@ def userExists(username):
 
     if User.objects.filter(username=username.strip()).exists():
         raise ValidationError('El nombre de usuario ya existe.')
-
+ 
 
 def validatePassword(value):
     """Valid that the password comes in the correct format"""
     import re
     compile_regex = re.compile(
-        r'^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{8,}$')
+        r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$')
     if not compile_regex.match(value):
         message = 'La contraseña debe contener al menos 8 caracteres alfanuméricos(letras y números).'
         raise ValidationError(message)
