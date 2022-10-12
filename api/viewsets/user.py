@@ -207,9 +207,9 @@ class UserViewSet(viewsets.ModelViewSet):
                     samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'])
                 return response
 
-            return Response({"detail": "Contraseña incorrecta"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"detail": "Usuario o contraseña incorrecta"}, status=status.HTTP_400_BAD_REQUEST)
         except User.DoesNotExist:
-            return Response({"detail": "Migrante no existe"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "Usuario o contraseña incorrecta"}, status=status.HTTP_404_NOT_FOUND)
         except KeyError as e:
             return Response({"detail": "{} is a required field".format(str(e))}, status=status.HTTP_400_BAD_REQUEST)
 

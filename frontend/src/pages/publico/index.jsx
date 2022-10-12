@@ -100,7 +100,7 @@ const PaginaPublica = () => {
               <p className="my-4 text-gray-900 text-base">
                 Casa migrante Tecun Human
               </p>
-              <p className="my-4 text-gray-900 text-base">Tel. 4455445454</p>
+              <p className="my-4 text-gray-900 text-base">Tel. 77768416</p>
             </div>
           </div>
         </div>
