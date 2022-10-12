@@ -1,21 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import Table, { tableActions } from "../../components/Table";
-import LoadMask from "../../components/LoadMask";
-import Button from "@mui/material/Button";
-import useList from "../../hooks/useList";
-import useDelete from "../../hooks/useDelete";
 import Search from "../../components/Search/Search";
-import ButtonUi from "../../components/UI";
 import casa from "../../assets/img/casa_migrante.png";
 import bandera from "../../assets/img/bandera.png";
 import api from "api";
-import { Card } from "@mui/material";
 
 const PaginaPublica = () => {
-  const { data, page, getData } = useList("migrante/buscar");
-  const [search, setSearch] = useState(null);
   const navigate = useNavigate();
   const [mostrarMensaje, setMostrarMensaje] = useState(false);
 
