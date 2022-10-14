@@ -78,7 +78,7 @@ const PaginaPublica = () => {
             <div className="mx-auto max-w-2xl text-gray-500">
               <p className="my-4 text-gray-900 text-base">
                 Esta herramienta te permite averiguar si tu familiar ha pasado
-                por alguna de las casas del migrante.
+                por la casas del migrante.
               </p>
             </div>
           </div>
@@ -88,7 +88,7 @@ const PaginaPublica = () => {
             </figcaption>
             <div className="mx-auto max-w-2xl text-gray-500 dark:text-gray-400">
               <p className="my-4 text-gray-900 text-base">
-                Casa migrante Tecun Human
+                Casa migrante Tecun Umán
               </p>
               <p className="my-4 text-gray-900 text-base">Tel. 77768416</p>
             </div>
