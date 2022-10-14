@@ -47,6 +47,10 @@ class EstadisticasViewSet(viewsets.ViewSet):
         "data": self.reporte("familia_en_el_norte")
       },
       {
+        "titulo": "Migrantes por Edades",
+        "data": self.reporte("edad")
+      },
+      {
         "titulo": "Migrantes por Planes",
         "data": self.reporte("planes")
       },

@@ -1,4 +1,5 @@
 # Django
+from datetime import date
 from django.db import models
 
 # Models
@@ -31,3 +32,8 @@ class Migrante(BaseModel):
   pais = models.CharField(max_length=250)
 
   ocupacion = models.CharField(max_length=250)
+  edad = models.CharField(max_length=3, default='12')
+
+  def calcular_edad(self):
+    hoy = date.today()
+    return hoy.year - self.fecha_nacimiento.year - ((hoy.month, hoy.day) < (self.fecha_nacimiento.month, self.fecha_nacimiento.day))

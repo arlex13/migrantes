@@ -53,7 +53,9 @@ class MigranteViewSet(viewsets.ModelViewSet):
         with transaction.atomic():
             serializer = self.get_serializer(data=data)
             serializer.is_valid(raise_exception=True)
-            serializer.save()
+            instancia_usuario = serializer.save()
+            instancia_usuario.edad = instancia_usuario.calcular_edad()
+            instancia_usuario.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -66,7 +68,9 @@ class MigranteViewSet(viewsets.ModelViewSet):
         with transaction.atomic():
             serializer = self.get_serializer(instance, data=data)
             serializer.is_valid(raise_exception=True)
-            serializer.save()
+            instancia_usuario = serializer.save()
+            instancia_usuario.edad = instancia_usuario.calcular_edad()
+            instancia_usuario.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
